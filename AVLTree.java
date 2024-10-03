@@ -342,25 +342,92 @@ class LUC_AVLTree {
      */
 
     private Node deleteElement(int value, Node node) {
+            
+        //If statement for if the node is null then return to null
+        if (node == null) {
+            return null;
+        }
 
         /*
-         * ADD CODE HERE
-         * 
-         * NOTE, that you should use the existing coded private methods
-         * in this file, which include:
-         *      - minValueNode,
-         *      - getMaxHeight,
-         *      - getHeight,
-         *      - getBalanceFactor,
-         *      - LLRotation
-         *      - RRRotation,
-         *      - LRRotation,
-         *      - RLRotation.
-         *
-         * To understand what each of these methods do, see the method prologues and
-         * code for each. You can also look at the method InsertElement, as it has do
-         * do many of the same things as this method.
+         * If statement is if the value is less than the node value
+         * If so the leftChild node is to be deleted
+         * Else if so the value is greater than the node value
+         * then rightChild node is to be deleted
+         * Else, if the node has no leftChild then return to rightChild
+         * And else if the node has no rightChild then return to leftChild
          */
+        if (value < node.value) {
+            node.leftChild = deleteElement(value, node.leftChild);
+        }
+        else if (value > node.value) {
+            node.rightChild = deleteElement(value, node.rightChild);
+        }
+        else {
+            if (node.leftChild == null) {
+                return node.rightChild;
+            }
+            else if (node.rightChild == null) {
+                return node.leftChild;
+            }
+
+            //The minimum vale for the node is the rightChild
+            Node minValueNode = minValueNode(node.rightChild);
+
+            //The value of the node is the minimum value of the node(minValueNode)
+            node.value = minValueNode.value;
+
+            //The rightChild would be deleted since it is the minimum value
+            node.rightChild = deleteElement(minValueNode.value, node.rightChild);
+        }
+
+        // If statement for if node is null then the return is null
+        if (node == null) {
+            return null;
+        }
+
+        //Getting the node height of leftChild and rightChild
+        node.height = 1 + getMaxHeight(getHeight(node.leftChild), getHeight(node.rightChild));
+
+        //Setting the integer of balance to get the balanced node
+        int balance = getBalanceFactor(node);
+        
+        /*
+         *If statement for if the balance is greater than 1,
+         * and leftChild is balanced or left heavy
+         * Would return a LLRotation
+         */
+        if (balance > 1 && getBalanceFactor(node.leftChild) >= 0) {
+            return LLRotation(node);
+        }
+
+        /*
+         * If statement for if the balance is greater than 1,
+         * and leftChild is left heavy but less than 0
+         * Would return a LRRotation
+         */
+        if (balance > 1 && getBalanceFactor(node.leftChild) < 0) {
+            return LRRotation(node);
+        }
+
+        /*
+         * If statement for if the balance is less than -1,
+         * and rightChild is balanced or right heavy
+         * Would return a RRRotation
+         */
+        if (balance < -1 && getBalanceFactor(node.rightChild) <= 0) {
+            return RRRotation(node);
+        }
+
+        /*
+         * If statement for if the balance is less than -1,
+         * and rightChild is right heavy but greater than 0
+         * Would return a LRRotation
+         */
+        if (balance < -1 && getBalanceFactor(node.rightChild) > 0) {
+            return RLRotation(node);
+        }
+
+        // Return back to the node
 
         return node;
     }
