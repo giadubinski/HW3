@@ -21,7 +21,10 @@ public class TreeProblems {
   
   public static Set<Integer> different(Set<Integer> setA, Set<Integer> setB) {
     
-    //Set Integer for TreeSet is set to store the result of setA
+    /*
+     * Set Integer for TreeSet is set to store the result of setA 
+     * and the result is adding all to setB
+     */
     Set<Integer> result = new TreeSet<>(setA);
     result.addAll(setB);
 
