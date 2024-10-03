@@ -1,5 +1,5 @@
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Gianna Dubinski / COMP 272-001 ***
  *
  * This java file contains several simple tree problems that need to be
  * codified. These routines  must use the TreeMap and TreeSet library
@@ -20,14 +20,20 @@ public class TreeProblems {
    */
   
   public static Set<Integer> different(Set<Integer> setA, Set<Integer> setB) {
+    
+    //Set Integer for TreeSet is set to store the result of setA
+    Set<Integer> result = new TreeSet<>(setA);
+    result.addAll(setB);
 
-    // INSERT CODE HERE - DO NOT FORGET TO PLACE YOUR NAME ABOVE
-    //
-    // This can be done numerous ways, but once such will only that
-    // *several* lines of code. Hint: create two temporary TreeSets and utilize the
-    // methods retainAll(), addAll(), and removeAll(). But in the end, get something to work.
+    // Set Integer is joining the TreeSet of setA and retaingall elements in setB
+    Set<Integer> join = new TreeSet<>(setA);
+    join.retainAll(setB);
 
-    return setA;
+    // The result is being removed when joined
+    result.removeAll(join);
+
+    //Return would go back to the result
+    return result;
   }
 
 
@@ -39,12 +45,28 @@ public class TreeProblems {
    */
 
   public static void removeEven(Map<Integer, String> treeMap) {
-
-    // INSERT CODE HERE.
-
-    return;
+    
+    //TreeMap is storing old entires
+    Map<Integer, String> oddEntries = new TreeMap<>();
+    
+    /*
+    * The for statement is iterating through treeMap and
+    * adding odd entries to the new TreehMap
+    * If statement is to get the key and to see if the key has an odd value
+    */
+    for (Map.Entry<Integer, String> entry : treeMap.entrySet()) {
+      if (entry.getKey() % 2 != 0) {
+        oddEntries.put(entry.getKey(), entry.getValue());
+      }
+      
+    }
+    
+    // treeMap is cleared
+    treeMap.clear();
+    
+    // Putting all the odd entries back to the treeMap
+    treeMap.putAll(oddEntries);
   }
-
 
   /**
    * Method treesEqual()
@@ -54,11 +76,9 @@ public class TreeProblems {
    */
 
   public boolean treesEqual(Map<Integer, String> tree1,Map<Integer, String> tree2 ) {
-
-    // INSERT CODE HERE
-
-    return false;
-
+    
+    //The return value has returned that the two TreeMaps are equal
+    return tree1.equals(tree2);
   }
 
 } // end treeProblems class
